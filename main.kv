@@ -1,0 +1,198 @@
+#:kivy 1.9.2
+# Visual de la main widget, o widget principal
+<MainWid>:
+    canvas:
+        Rectangle:
+            source: 'img_1.png'
+            pos: self.pos
+            size: self.size
+
+# Visual de la primera pantalla o pantalla de inicio
+<StartWid>:
+    orientation: 'vertical'
+    canvas:
+        Rectangle:
+            source: 'img_1.png'
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        size_hint_y: .7
+        Label:
+            text: 'Bienvenido a InvCli'
+            font_size: 26
+            bold: True
+            padding: 5,5
+            color: 0.61,0.61,0.61
+    Button:
+        size_hint_y: .1
+        text: 'Entrar'
+        on_press: root.create_database()
+    BoxLayout:
+        size_hint_y: .2
+
+# Visual de la pantalla de datos dentro de la segunda pantalla despues de inicio
+<DataWid>:
+    data: ''
+    data_id: ''
+    canvas:
+        Color:
+            rgb: 0.6,0.6,0.6
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        size_hint_x: 0.9
+        size_font: self.width*0.4
+        text: root.data
+    Button:
+        size_hint_x: 0.1
+        text: 'Edit'
+        on_press: root.update_data(root.data_id)
+
+# Boton para agregar nuevos datos
+<NewDataButton>:
+    font_size: self.height*0.5
+    text: '+'
+    on_press: self.create_new_cliente()
+
+# Visual de la segunda pantalla o observacion de datos
+<DataBaseWid>:
+    canvas:
+        Rectangle:
+            source: 'img_1.png'
+            pos: self.pos
+            size: self.size
+    ScrollView:
+        size: self.size
+        GridLayout:
+            id: container
+            padding: [10,10,10,10]
+            spacing: 5
+            size_hint_y: None
+            cols: 1
+            row_default_height: root.height*0.2
+            height: self.minimum_height
+
+# Creacion de clase visual para uso de creacion de titulos pegados a la izquierda
+<LeftLabel@Label>:
+    text_size: self.size
+    halign: 'left'
+
+# Visual del widget popup de error
+<MessagePopup>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: message
+            size_hint: 1,0.8
+            text: ''
+        Button:
+            size_hint: 1,0.2
+            text: 'Regresar'
+            on_press: root.dismiss()
+
+# Visual de la pantalla de insertar datos
+<InsertDataWid>:
+    orientation: 'vertical'
+    canvas:
+        Rectangle:
+            source: 'img_1.png'
+            pos: self.pos
+            size: self.size
+    LeftLabel: # ---------- ID
+        text: ' ID:'
+        color: 0,0,0
+    TextInput:
+        id: ti_id
+        multiline: False
+        hint_text: 'ID'
+    LeftLabel: # ---------- Nombre
+        text: ' Nombre:'
+        color: 0,0,0
+    TextInput:
+        id: ti_nombre
+        multiline: False
+        hint_text: 'Nombre'
+    LeftLabel: # ---------- Apellido
+        text: ' Apellido:'
+        color: 0,0,0
+    TextInput:
+        id: ti_apellido
+        multiline: False
+        hint_text: 'Apellido'
+    LeftLabel: # ---------- Telefono
+        text: ' Telefono:'
+        color: 0,0,0
+    TextInput:
+        id: ti_telefono
+        multiline: False
+        hint_text: 'Telefono'
+    LeftLabel:  # ---------- Email
+        text: ' Email:'
+        color: 0,0,0
+    TextInput:
+        id: ti_email
+        multiline: False
+        hint_text: 'Email'
+    BoxLayout:
+        size_hint_y: 5
+    BoxLayout: # ---------- Crear Salir
+        Button:
+            text: 'Crear'
+            on_press: root.insert_data()
+        Button:
+            text: 'Salir'
+            on_press: root.back_to_dbw()
+
+# Visual de la pantalla de actualizar datos
+<UpdateDataWid>:
+    orientation: 'vertical'
+    data_id: ''
+    canvas:
+        Rectangle:
+            source: 'img_1.png'
+            pos: self.pos
+            size: self.size
+    LeftLabel: # ---------- ID
+        text: ' ID: '+root.data_id
+        color: 0,0,0
+    LeftLabel: # ---------- Nombre
+        text: ' Nombre:'
+        color: 0,0,0
+    TextInput:
+        id: ti_nombre
+        multiline: False
+        hint_text: 'Nombre'
+    LeftLabel: # ---------- Apellido
+        text: ' Apellido:'
+        color: 0,0,0
+    TextInput:
+        id: ti_apellido
+        multiline: False
+        hint_text: 'Apellido'
+    LeftLabel: # ---------- Telefono
+        text: ' Telefono:'
+        color: 0,0,0
+    TextInput:
+        id: ti_telefono
+        multiline: False
+        hint_text: 'Telefono'
+    LeftLabel:  # ---------- Email
+        text: ' Email:'
+        color: 0,0,0
+    TextInput:
+        id: ti_email
+        multiline: False
+        hint_text: 'Email'
+    BoxLayout:
+        size_hint_y: 4
+    BoxLayout:
+        Button:
+            text: 'Actualizar'
+            on_press: root.update_data()
+        Button:
+            text: 'Eliminar'
+            on_press: root.delete_data()
+    Button: # ---------- Actualizar, Salir
+        text: 'Salir'
+        on_press: root.mainwid.goto_database()
